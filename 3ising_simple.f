@@ -1,6 +1,7 @@
 CC####################################################################
       program ising
 CC cambio questa riga
+CC aggiungo la mamma di raffaele
 CC####################################################################
 c programma per la simulazione del modello di ising bidimensionale
 c con possibilita` di inserire un campo magnetico esterno
