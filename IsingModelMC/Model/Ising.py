@@ -4,7 +4,7 @@ con possibilita` di inserire un campo magnetico esterno
 import argparse
 import logging
 import numpy as np
-import makedir as mk
+import IsingModelMC.makedir as mk
 
 iflag = 1           # partenza caldo(1)/freddo(0)/precedente(altro)
 measures = 5000     # numero di misure
@@ -23,16 +23,15 @@ def initialize_lattice(iflag, nlatt):
         lattice_n[init_matrix_random>=0.5]=1
         lattice_n[init_matrix_random<0.5]=-1
 
-    print(lattice_n)
+    return lattice_n
 
 def geometry(nlatt):
     npp = [i+1 for i in range(1,nlatt+1)]
     nmm = [i-1 for i in range(1,nlatt+1)]
     npp[nlatt-1]=1
     nmm[0]=nlatt
-    print(npp, nmm)
 
-
+    return (npp, nmm)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Ising Model')
