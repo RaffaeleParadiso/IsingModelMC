@@ -5,7 +5,7 @@ import argparse
 import statistics
 import time
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import module.func as fnc
 import module.makedir as mk
 import model.costants as c
@@ -34,22 +34,22 @@ if __name__ == '__main__':
     start = time.time()
 
     ret_ = fnc.initialize_lattice(flag,lattice_dim)
-    for i in np.arange(0.35,0.55,0.01):
-        magnet = []
-        energies = []
-        for val in range(0, measures):
-            for iter in range(0, i_decorrel):
-                metr = fnc.metropolis(flag, lattice_dim, ret_, i, extfield)
-            mag = fnc.magnetization(lattice_dim, metr)
-            magnet.append(mag)
-            ener = fnc.energy(lattice_dim, metr, extfield)
-            energies.append(ener)
+    # for i in np.arange(0.35,0.55,0.01):
+    magnet = []
+    energies = []
+    for val in range(0, measures):
+        for iter in range(0, i_decorrel):
+            metr = fnc.metropolis(flag, lattice_dim, ret_, beta, extfield)
+        mag = fnc.magnetization(lattice_dim, metr)
+        magnet.append(mag)
+        ener = fnc.energy(lattice_dim, metr, extfield)
+        energies.append(ener)
 
-        np.savetxt(f"results/magnetization_{flag}_{lattice_dim}_{i:.2f}.txt", magnet)
-        np.savetxt(f"results/energy{flag}_{lattice_dim}_{i:.2f}.txt", energies)
+    np.savetxt(f"results/magnetization_f{flag}_d{lattice_dim}_b{beta:.2f}.txt", magnet)
+    np.savetxt(f"results/energy_f{flag}_d{lattice_dim}_b{beta:.2f}.txt", energies)
 
-        mean_magnetization = statistics.mean(magnet)
-        mean_energy = statistics.mean(energies)
-        print(f"mean_magnetization: {mean_magnetization}")
-        print(f"mean_energy: {mean_energy}")
-        print(f"time elapsed: {time.time() - start}")
+    mean_magnetization = statistics.mean(magnet)
+    mean_energy = statistics.mean(energies)
+    print(f"mean_magnetization: {mean_magnetization}")
+    print(f"mean_energy: {mean_energy}")
+    print(f"time elapsed: {time.time() - start}")

@@ -1,5 +1,5 @@
 import numpy as np
-from numba import jit
+from numba import njit
 
 def initialize_lattice(start, dim_latt):
     '''
@@ -14,7 +14,7 @@ def initialize_lattice(start, dim_latt):
         lattice_n[init_matrix_random<0.5]=-1
     return lattice_n
 
-@jit
+@njit(cache = True)
 def geometry(dim_latt):
     '''Per ogni coordinata definisco il passo in avanti o indietro
        con le opportune condizioni al bordo
@@ -25,7 +25,7 @@ def geometry(dim_latt):
     nmm[0] = dim_latt-1
     return (npp, nmm)
 
-@jit
+@njit(cache = True)
 def metropolis(start, dim_latt, lattice_n, beta, extfield):
     '''
     Faccio aggiornamenti locali delle variabili di spin con metropolis.
@@ -47,7 +47,7 @@ def metropolis(start, dim_latt, lattice_n, beta, extfield):
             lattice_n[i,j] = -phi
     return lattice_n
 
-@jit
+@njit(cache = True)
 def  magnetization(dim_latt, lattice_n):
     '''
     Calcolo della magnetizzazione media del reticolo
@@ -59,7 +59,7 @@ def  magnetization(dim_latt, lattice_n):
     xmagn = xmagn/float(dim_latt**2)
     return xmagn
 
-@jit
+@njit(cache = True)
 def energy(dim_latt, lattice_n, extfield):
     '''
     Calcolo dell'energia media del reticolo.

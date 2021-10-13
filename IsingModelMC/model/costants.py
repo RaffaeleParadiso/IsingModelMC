@@ -3,4 +3,4 @@ LATT_DIM = 10      # lattice dimensions (LxL)
 IDECORREL = 100    # numero di volte che runno il metropolis prima di effettuare la misura
 MEASURES = 100000  # number of measures
 EXTFIELD = 0       # extfield (valore del campo esterno)
-BETA = 0.4         # beta (valore di 1/(kT) = beta)
+BETA = 0.3         # beta (valore di 1/(kT) = beta)
