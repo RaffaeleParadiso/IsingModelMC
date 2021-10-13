@@ -8,6 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import module.func as fnc
 import module.makedir as mk
+import model.costants as c
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='2D Ising Model')
@@ -18,14 +19,12 @@ if __name__ == '__main__':
     new_folder = args.new
     path_folder = args.path
 
-    parameters = [x.split(',')[0] for x in open("input.txt", "r").readlines()]
-
-    flag = int(parameters[0])
-    lattice_dim = int(parameters[1])
-    i_decorrel = int(parameters[2])
-    measures = int(parameters[3])
-    extfield = float(parameters[4])
-    beta = float(parameters[5])
+    flag = c.FLAG
+    lattice_dim = c.LATT_DIM
+    i_decorrel = c.IDECORREL
+    measures = c.MEASURES
+    extfield = c.EXTFIELD
+    beta = c.BETA
 
     if new_folder == True:
         mk.smart_makedir(path_folder)
