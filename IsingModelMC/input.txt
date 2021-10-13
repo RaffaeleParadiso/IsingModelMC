@@ -1,0 +1,6 @@
+1,flag (Cold start [spin tutti 1]=0, Hot start [spin random]=1)
+10,lattice dimensions
+100,numero di volte che runno il metropolis prima di effettuare la misura
+100000,number of measures
+0,extfield (valore del campo esterno)
+0.44,beta (valore di 1/(kT) = beta)
