@@ -24,29 +24,15 @@ def ma(dim):
         magn.append(media)
     return magn
 
-for i in range(10,80,10):
-    ma10=ma(10)
-    ma20=ma(20)
-    ma30=ma(30)
-    ma40=ma(40)
-    ma50=ma(50)
-    ma60=ma(60)
-    ma70=ma(70)
-    print(i)
+def calore_specifico(dim):
+    cs = []
+    for i in np.arange(20,85,5):
+        energy = np.loadtxt(f"results\lattice_dim_{dim}\energies_beta_0.{i}0.txt")
+        var_energy = statistics.pvariance(energy)
+        cs.append((dim**2)*var_energy)
+    return cs
 
-ch10 = susceptivity(10)
-ch20 = susceptivity(20)
-ch30 = susceptivity(30)
-ch40 = susceptivity(40)
-ch50 = susceptivity(50)
-ch60 = susceptivity(60)
-ch70 = susceptivity(70)
-# plt.figure()
-# plt.plot(np.arange(0.20,0.85,0.05), ch10)
-# plt.plot(np.arange(0.20,0.85,0.05), ch20)
-# plt.plot(np.arange(0.20,0.85,0.05), ch30)
-# plt.plot(np.arange(0.20,0.85,0.05), ch40)
-# plt.plot(np.arange(0.20,0.85,0.05), ch50)
-# plt.plot(np.arange(0.20,0.85,0.05), ch60)
-# plt.plot(np.arange(0.20,0.85,0.05), ch70)
-# plt.show()
+plt.figure()
+for i in range(10,80,10):
+    plt.plot(np.arange(0.2,0.85,0.05), calore_specifico(i))
+plt.show()
