@@ -1,3 +1,4 @@
+import statistics
 import numpy as np
 from numba import njit
 
@@ -79,3 +80,22 @@ def energy(dim_latt, lattice_n, extfield):
             xene = xene - extfield*lattice_n[i,j]
     xene = xene/float(nvol)
     return xene
+
+@njit(cache = True)
+def run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta):
+    magnet = []
+    energies = []
+    for val in range(0, measures):
+        for iter in range(0, i_decorrel):
+            metr = metropolis(flag, lattice_dim, ret_, beta, extfield)
+        mag = magnetization(lattice_dim, metr)
+        magnet.append(mag)
+        ener = energy(lattice_dim, metr, extfield)
+        energies.append(ener)
+    return (magnet, energies)
+
+
+def info_save(flag, lattice_dim, beta, observable, name):
+    np.savetxt(f"results/lattice_dim_{lattice_dim}/{name}_beta_{beta:.3f}.txt", observable)
+    mean = statistics.mean(observable)
+    print(f"mean_{name}: {mean}")
