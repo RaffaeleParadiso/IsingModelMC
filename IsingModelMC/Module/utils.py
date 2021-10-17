@@ -96,8 +96,8 @@ def run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta
     return (magnet, energies)
 
 
-def info_save(flag, lattice_dim, beta, observable, name):
+def info_save(lattice_dim, beta, observable, name):
     mk.smart_makedir(f"{observable}")
-    np.savetxt(f"results/lattice_dim_{lattice_dim}/{name}_beta_{beta:.3f}.txt", observable)
+    np.savetxt(f"results/lattice_dim_{lattice_dim}/{observable}/{name}_beta_{beta:.3f}.txt", observable)
     mean = statistics.mean(observable)
     print(f"mean_{name}: {mean}")
