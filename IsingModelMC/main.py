@@ -4,7 +4,7 @@
 import argparse
 import time
 import numpy as np
-import module.func as fnc
+import module.utils as fnc
 import module.makedir as mk
 import model.costants as c
 

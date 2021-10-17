@@ -1,101 +1,40 @@
+import os
 import statistics
 import numpy as np
-from numba import njit
+import matplotlib.pyplot as plt
+import makedir as mk
+from makedir import go_up
 
-def initialize_lattice(start, dim_latt):
-    '''
-    Assegno la configurazione di partenza della catena di Markov
-    '''
-    lattice_n = np.zeros((dim_latt, dim_latt))
-    if start == 0:
-        lattice_n = np.ones((dim_latt, dim_latt))
-    if start == 1:
-        init_matrix_random = np.random.random((dim_latt, dim_latt))
-        lattice_n[init_matrix_random>=0.5]=1
-        lattice_n[init_matrix_random<0.5]=-1
-    return lattice_n
+path = mk.go_up(1)
+def susceptivity(dim_latt):
+    chi = []
+    for element in os.listdir(path+f"//results/lattice_dim_{dim_latt}/magnetization"):
+        file_ = os.path.join(path+f"//results/lattice_dim_{dim_latt}/magnetization", element)
+        beta = float(element[19:24])
+        magnetization = np.loadtxt(file_)
+        media = statistics.mean(magnetization**2)
+        absolute = np.abs(magnetization)
+        absolutesquared = statistics.mean(absolute)
+        s = (dim_latt**2)*((media)-(absolutesquared**2))*(beta/100)
+        chi.append(s)
+    return chi
 
-@njit(cache = True)
-def geometry(dim_latt):
-    '''Per ogni coordinata definisco il passo in avanti o indietro
-       con le opportune condizioni al bordo
-    '''
-    npp = [i+1 for i in range(0,dim_latt)]
-    nmm = [i-1 for i in range(0,dim_latt)]
-    npp[dim_latt-1] = 0
-    nmm[0] = dim_latt-1
-    return (npp, nmm)
+def mean_magnetization(dim_latt):
+    mean_m = []
+    for i in np.arange(20,85,5):
+        magnetization = np.loadtxt(f"results\lattice_dim_latt_{dim_latt}\magnetization_beta_0.{i}0.txt")
+        a = np.abs(magnetization)
+        media = statistics.mean(a)
+        mean_m.append(media)
+    return mean_m
 
-@njit(cache = True)
-def metropolis(start, dim_latt, lattice_n, beta, extfield):
-    '''
-    Faccio aggiornamenti locali delle variabili di spin con metropolis.
-    La variabile di spin di prova è sempre quella opposta a quella attuale.
-    '''
-    (npp, nmm) = geometry(dim_latt)
-    for i in range(dim_latt**2):
-        i=int(np.random.random()*(dim_latt))
-        j=int(np.random.random()*(dim_latt))
-        ip_ = npp[i]
-        im_ = nmm[i]
-        jp_ = npp[j]
-        jm_ = nmm[j]
-        force = lattice_n[i,jp_]+lattice_n[i,jm_]+lattice_n[ip_,j]+lattice_n[im_,j]
-        force = beta*(force+extfield)
-        phi = lattice_n[i,j]
-        x_rand = np.random.random()
-        if x_rand < np.exp(-2.0*phi*force):
-            lattice_n[i,j] = -phi
-    return lattice_n
-
-@njit(cache = True)
-def  magnetization(dim_latt, lattice_n):
-    '''
-    Calcolo della magnetizzazione media del reticolo
-    '''
-    xmagn = 0.0
-    for i in range(0,dim_latt):
-        for j in range(0,dim_latt):
-            xmagn = xmagn + lattice_n[i,j]
-    xmagn = xmagn/float(dim_latt**2)
-    return xmagn
-
-@njit(cache = True)
-def energy(dim_latt, lattice_n, extfield):
-    '''
-    Calcolo dell'energia media del reticolo.
-    Energia media = 0 per configurazione ordinata e campo esterno nullo.
-    '''
-    (npp, nmm) = geometry(dim_latt)
-    nvol = dim_latt**2
-    xene = 0.0
-    for i in range(0,dim_latt):
-        for j in range(0,dim_latt):
-            ip_ = npp[i]
-            im_ = nmm[i]
-            jp_ = npp[j]
-            jm_ = nmm[j]
-            force = lattice_n[i,jp_]+lattice_n[i,jm_]+lattice_n[ip_,j]+lattice_n[im_,j]
-            xene = xene -  0.5*force*lattice_n[i,j]
-            xene = xene - extfield*lattice_n[i,j]
-    xene = xene/float(nvol)
-    return xene
-
-@njit(cache = True)
-def run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta):
-    magnet = []
-    energies = []
-    for val in range(0, measures):
-        for iter in range(0, i_decorrel):
-            metr = metropolis(flag, lattice_dim, ret_, beta, extfield)
-        mag = magnetization(lattice_dim, metr)
-        magnet.append(mag)
-        ener = energy(lattice_dim, metr, extfield)
-        energies.append(ener)
-    return (magnet, energies)
+def specific_heat(dim_latt):
+    s_heat = []
+    for i in np.arange(20,85,5):
+        energy = np.loadtxt(f"results\lattice_dim_latt_{dim_latt}\energies_beta_0.{i}0.txt")
+        var_energy = statistics.pvariance(energy)
+        s_heat.append((dim_latt**2)*var_energy)
+    return s_heat
 
 
-def info_save(flag, lattice_dim, beta, observable, name):
-    np.savetxt(f"results/lattice_dim_{lattice_dim}/{name}_beta_{beta:.3f}.txt", observable)
-    mean = statistics.mean(observable)
-    print(f"mean_{name}: {mean}")
+a = susceptivity(10)
