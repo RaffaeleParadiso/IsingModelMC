@@ -1,6 +1,6 @@
 import numpy as np
 from pathlib import Path
-import module.bootstrap as boot
+import module.func as boot
 
 pathlist= Path("results/lattice_dim_10").glob("**/*.txt")
 
@@ -19,29 +19,6 @@ for path in pathlist:
     print('siamo al file n° ',path, 'e ne mancano ', len(pathlist)-path)
 
 print(sigma_measures)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # pathlist= Path("IsingModelMC/results/lattice_dim_10").glob("**/*.txt")
 

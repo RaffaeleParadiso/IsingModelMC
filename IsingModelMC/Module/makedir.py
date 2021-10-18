@@ -1,9 +1,7 @@
-import argparse
-import sys
 import logging
 import os
 import shutil
-
+import sys
 
 def go_up(level_up):
     '''
@@ -52,9 +50,7 @@ def smart_makedir(name_dir, level_up=0):
     Returns
     -------
     None.
-
     '''
-
     separator = '/'
     if level_up == 0:
         path = separator.join([go_up(0), name_dir])
@@ -77,17 +73,3 @@ def smart_makedir(name_dir, level_up=0):
             sys.exit()
     os.makedirs(path)
     logging.info(f"Successfully created the directory '{path}' \n")
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Easy way to create folders')
-    parser.add_argument("-log", "--log", default="info",
-                        help=("Provide logging level. Example --log debug', default='info"))
-    args = parser.parse_args()
-
-    levels = {'critical': logging.CRITICAL,
-              'error': logging.ERROR,
-              'warning': logging.WARNING,
-              'info': logging.INFO,
-              'debug': logging.DEBUG}
-    logging.basicConfig(level=levels[args.log])

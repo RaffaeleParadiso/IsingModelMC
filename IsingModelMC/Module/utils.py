@@ -1,11 +1,21 @@
 import statistics
 import numpy as np
 from numba import njit
-import module.makedir as mk
+import makedir as mk
 
 def initialize_lattice(start, dim_latt):
     '''
-    Assegno la configurazione di partenza della catena di Markov
+    Assegno la configurazione di partenza della catena di Markov.
+
+    Parameters
+    ----------
+    start : str
+        From level you have set, complete path of the directory you want to create
+    dim_latt : int, optional
+        How many step up you want to do from the current path. The default is 0.
+    -------
+    Returns : lattice_n
+    -------
     '''
     lattice_n = np.zeros((dim_latt, dim_latt))
     if start == 0:
@@ -18,8 +28,19 @@ def initialize_lattice(start, dim_latt):
 
 @njit(cache = True)
 def geometry(dim_latt):
-    '''Per ogni coordinata definisco il passo in avanti o indietro
-       con le opportune condizioni al bordo
+    '''Per ogni coordinata definisco il passo in avanti o indietro con le opportune condizioni al bordo.
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
     '''
     npp = [i+1 for i in range(0,dim_latt)]
     nmm = [i-1 for i in range(0,dim_latt)]
@@ -32,6 +53,19 @@ def metropolis(start, dim_latt, lattice_n, beta, extfield):
     '''
     Faccio aggiornamenti locali delle variabili di spin con metropolis.
     La variabile di spin di prova è sempre quella opposta a quella attuale.
+
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
     '''
     (npp, nmm) = geometry(dim_latt)
     for i in range(dim_latt**2):
@@ -53,6 +87,19 @@ def metropolis(start, dim_latt, lattice_n, beta, extfield):
 def  magnetization(dim_latt, lattice_n):
     '''
     Calcolo della magnetizzazione media del reticolo
+
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
     '''
     xmagn = 0.0
     for i in range(0,dim_latt):
@@ -66,6 +113,19 @@ def energy(dim_latt, lattice_n, extfield):
     '''
     Calcolo dell'energia media del reticolo.
     Energia media = 0 per configurazione ordinata e campo esterno nullo.
+
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
     '''
     (npp, nmm) = geometry(dim_latt)
     nvol = dim_latt**2
@@ -84,6 +144,20 @@ def energy(dim_latt, lattice_n, extfield):
 
 @njit(cache = True)
 def run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta):
+    '''
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
+    '''
     magnet = []
     energies = []
     for val in range(0, measures):
@@ -97,6 +171,20 @@ def run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta
 
 
 def info_save(lattice_dim, beta, observable, name):
+    '''
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
+    '''    
     mk.smart_makedir(f"{observable}")
     np.savetxt(f"results/lattice_dim_{lattice_dim}/{observable}/{name}_beta_{beta:.3f}.txt", observable)
     mean = statistics.mean(observable)
