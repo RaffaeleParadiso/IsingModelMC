@@ -16,12 +16,13 @@ beta_stop = c.BETA_STOP
 passo_beta = c.PASSO_BETA
 
 
+# a, bet = fnc.mean_magnetization(10)
+# a, bet = fnc.susceptivity(10)
+# a, bet = fnc.specific_heat(10)
 
-sus, bet = fnc.susceptivity(10)
-
-plt.figure()
-plt.scatter(bet, sus)
-plt.show()
+# plt.figure()
+# plt.scatter(bet, a)
+# plt.show()
 
 
 

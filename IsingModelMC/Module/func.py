@@ -3,9 +3,6 @@ import statistics
 from pathlib import Path
 import time
 import numpy as np
-import matplotlib.pyplot as plt
-
-path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 
 def mean_magnetization(dim_latt):
     '''
@@ -22,13 +19,19 @@ def mean_magnetization(dim_latt):
     -------
     None.
     '''
+    path = os.getcwd()
+    magnetization_path = Path(path + f"/results/lattice_dim_{dim_latt}/magnetization")
     mean_m = []
-    for i in np.arange(20,85,5):
-        magnetization = np.loadtxt(f"results\lattice_dim_latt_{dim_latt}\magnetization_beta_0.{i}0.txt")
-        a = np.abs(magnetization)
-        media = statistics.mean(a)
+    beta_list = []
+    for element in os.listdir(magnetization_path):
+        file_ = os.path.join(magnetization_path, element)
+        beta = float(element[19:24])
+        beta_list.append(beta)
+        magnetization = np.loadtxt(file_)
+        mean = np.abs(magnetization)
+        media = statistics.mean(mean)
         mean_m.append(media)
-    return mean_m
+    return mean_m ,beta_list
 
 def susceptivity(dim_latt):
     '''
@@ -45,6 +48,7 @@ def susceptivity(dim_latt):
     -------
     None.
     '''
+    path = os.getcwd()
     chi = []
     beta_list = []
     magnetization_path = Path(path + f"/results/lattice_dim_{dim_latt}/magnetization")
@@ -75,12 +79,18 @@ def specific_heat(dim_latt):
     -------
     None.
     '''
+    path = os.getcwd()
     s_heat = []
-    for i in np.arange(20,85,5):
-        energy = np.loadtxt(f"results\lattice_dim_latt_{dim_latt}\energies_beta_0.{i}0.txt")
+    beta_list = []
+    energy_path = Path(path + f"/results/lattice_dim_{dim_latt}/energies")
+    for element in os.listdir(energy_path):
+        file_ = os.path.join(energy_path, element)
+        beta = float(element[14:19])
+        beta_list.append(beta)
+        energy = np.loadtxt(file_)
         var_energy = statistics.pvariance(energy)
         s_heat.append((dim_latt**2)*var_energy)
-    return s_heat
+    return s_heat, beta_list
 
 def bootstrap_binning(array_osservabile, func, beta, dim):
     '''
