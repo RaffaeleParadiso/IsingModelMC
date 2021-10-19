@@ -7,7 +7,7 @@ import os.path
 import statistics
 import time
 import numpy as np
-import module.utils as fnc
+import module.utils as ut
 import module.makedir as mk
 import model.costants as c
 
@@ -44,12 +44,12 @@ if __name__ == '__main__':
         if new_lattice == True:
             mk.smart_makedir(f"results/lattice_dim_{lattice_dim}/magnetization")
             mk.smart_makedir(f"results/lattice_dim_{lattice_dim}/energies")
-        ret_ = fnc.initialize_lattice(flag,lattice_dim)    
+        ret_ = ut.initialize_lattice(flag,lattice_dim)    
         for beta in np.arange(beta_start,beta_stop,passo_beta):
             if os.path.exists(f'results/lattice_dim_{lattice_dim}/magnetization/magnetization_beta_{beta:.3f}.txt') == True:
                 continue    
             logging.info(f'============ Beta: {beta:.3f} ============')
-            mag, en = fnc.run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta)
+            mag, en = ut.run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta)
             print(f"time elapsed: {time.time() - start}")
             np.savetxt(f"results/lattice_dim_{lattice_dim}/magnetization/magnetization_beta_{beta:.3f}.txt", mag)
             np.savetxt(f"results/lattice_dim_{lattice_dim}/energies/energies_beta_{beta:.3f}.txt", en)
