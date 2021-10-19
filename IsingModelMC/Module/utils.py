@@ -27,7 +27,6 @@ def initialize_lattice(start, dim_latt):
 @njit(cache = True)
 def geometry(dim_latt):
     '''Per ogni coordinata definisco il passo in avanti o indietro con le opportune condizioni al bordo.
-    Easy way to create a folder. You can go up from the current path up to 4 times.
 
     Parameters
     ----------
@@ -51,8 +50,6 @@ def metropolis(start, dim_latt, lattice_n, beta, extfield):
     '''
     Faccio aggiornamenti locali delle variabili di spin con metropolis.
     La variabile di spin di prova è sempre quella opposta a quella attuale.
-
-    Easy way to create a folder. You can go up from the current path up to 4 times.
 
     Parameters
     ----------
@@ -86,8 +83,6 @@ def  magnetization(dim_latt, lattice_n):
     '''
     Calcolo della magnetizzazione media del reticolo
 
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
     Parameters
     ----------
     name_dir : str
@@ -111,8 +106,6 @@ def energy(dim_latt, lattice_n, extfield):
     '''
     Calcolo dell'energia media del reticolo.
     Energia media = 0 per configurazione ordinata e campo esterno nullo.
-
-    Easy way to create a folder. You can go up from the current path up to 4 times.
 
     Parameters
     ----------
