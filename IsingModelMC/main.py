@@ -15,7 +15,7 @@ if __name__ == '__main__':
     flag = c.FLAG
     lattice_dim = c.LATT_DIM
     latt_dim_start = c.LATT_DIM_START
-    latt_dim_start = c.LATT_DIM_STOP
+    latt_dim_stop = c.LATT_DIM_STOP
     passo_latt_dim = c.PASSO_LATT_DIM
     i_decorrel = c.IDECORREL
     measures = c.MEASURES
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     passo_beta = c.PASSO_BETA
 
     start = time.time()
-    for lattice_dim in range(10,100,10):
+    for lattice_dim in range(latt_dim_start,latt_dim_stop,passo_latt_dim):
         mk.smart_makedir(f"results/lattice_dim_{lattice_dim}")
         ret_ = fnc.initialize_lattice(flag,lattice_dim)    
         for beta in np.arange(beta_start,beta_stop,passo_beta):
