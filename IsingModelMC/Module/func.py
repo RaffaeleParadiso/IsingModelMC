@@ -6,18 +6,20 @@ import numpy as np
 
 def mean_magnetization(dim_latt):
     '''
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
+    Return the mean magnetization for a specific beta and the list of the beta.
+    ==========
     Parameters
     ----------
-    name_dir : str
-        From level you have set, complete path of the directory you want to create
-    level_up : int, optional
-        How many step up you want to do from the current path. The default is 0.
-
+    dim_latt : int
+        Dimension of the lattice.
+    ==========
     Returns
-    -------
-    None.
+    ----------
+    mean_m : list
+        Array of mean magnetization for different value of beta.
+    beta_list : list
+        Array of beta at which the mean magnetization was calculated.
+    ==========
     '''
     path = os.getcwd()
     magnetization_path = Path(path + f"/results/lattice_dim_{dim_latt}/magnetization")
@@ -35,18 +37,20 @@ def mean_magnetization(dim_latt):
 
 def susceptivity(dim_latt):
     '''
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
+    Return the susceptivity for a specific beta and the list of the beta.
+    ==========
     Parameters
     ----------
-    name_dir : str
-        From level you have set, complete path of the directory you want to create
-    level_up : int, optional
-        How many step up you want to do from the current path. The default is 0.
-
+    dim_latt : int
+        Dimension of the lattice.
+    ==========
     Returns
-    -------
-    None.
+    ----------
+    chi : list
+        Array of susceptivity for different value of beta.
+    beta_list : list
+        Array of beta at which the susceptivity was calculated.
+    ==========
     '''
     path = os.getcwd()
     chi = []
@@ -66,18 +70,20 @@ def susceptivity(dim_latt):
 
 def specific_heat(dim_latt):
     '''
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
+    Return the specific heat for a specific beta and the list of the beta.
+    ==========
     Parameters
     ----------
-    name_dir : str
-        From level you have set, complete path of the directory you want to create
-    level_up : int, optional
-        How many step up you want to do from the current path. The default is 0.
-
+    dim_latt : int
+        Dimension of the lattice.
+    ==========
     Returns
-    -------
-    None.
+    ----------
+    s_heat : list
+        Array of specific heat for different value of beta.
+    beta_list : list
+        Array of beta at which the susceptivity was calculated.
+    ==========
     '''
     path = os.getcwd()
     s_heat = []
@@ -94,18 +100,6 @@ def specific_heat(dim_latt):
 
 def bootstrap_binning(array_osservabile, func, beta, dim):
     '''
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
-    Parameters
-    ----------
-    name_dir : str
-        From level you have set, complete path of the directory you want to create
-    level_up : int, optional
-        How many step up you want to do from the current path. The default is 0.
-
-    Returns
-    -------
-    None.
     '''
     bin=1+len(array_osservabile)//1000
     sample=[]
