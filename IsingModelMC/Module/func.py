@@ -4,36 +4,8 @@ from pathlib import Path
 import time
 import numpy as np
 import matplotlib.pyplot as plt
-import makedir as mk
-from makedir import go_up
 
-path = mk.go_up(1)
-def susceptivity(dim_latt):
-    '''
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
-    Parameters
-    ----------
-    name_dir : str
-        From level you have set, complete path of the directory you want to create
-    level_up : int, optional
-        How many step up you want to do from the current path. The default is 0.
-
-    Returns
-    -------
-    None.
-    '''
-    chi = []
-    for element in os.listdir(path+f"//results/lattice_dim_{dim_latt}/magnetization"):
-        file_ = os.path.join(path+f"//results/lattice_dim_{dim_latt}/magnetization", element)
-        beta = float(element[19:24])
-        magnetization = np.loadtxt(file_)
-        media = statistics.mean(magnetization**2)
-        absolute = np.abs(magnetization)
-        absolutesquared = statistics.mean(absolute)
-        s = (dim_latt**2)*((media)-(absolutesquared**2))*(beta/100)
-        chi.append(s)
-    return chi
+path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 
 def mean_magnetization(dim_latt):
     '''
@@ -58,6 +30,36 @@ def mean_magnetization(dim_latt):
         mean_m.append(media)
     return mean_m
 
+def susceptivity(dim_latt):
+    '''
+    Easy way to create a folder. You can go up from the current path up to 4 times.
+
+    Parameters
+    ----------
+    name_dir : str
+        From level you have set, complete path of the directory you want to create
+    level_up : int, optional
+        How many step up you want to do from the current path. The default is 0.
+
+    Returns
+    -------
+    None.
+    '''
+    chi = []
+    beta_list = []
+    magnetization_path = Path(path + f"/results/lattice_dim_{dim_latt}/magnetization")
+    for element in os.listdir(magnetization_path):
+        file_ = os.path.join(magnetization_path, element)
+        beta = float(element[19:24])
+        beta_list.append(beta)
+        magnetization = np.loadtxt(file_)
+        media = statistics.mean(magnetization**2)
+        absolute = np.abs(magnetization)
+        absolutesquared = statistics.mean(absolute)
+        s = (dim_latt**2)*((media)-(absolutesquared**2))*(beta/100)
+        chi.append(s)
+    return chi, beta_list
+
 def specific_heat(dim_latt):
     '''
     Easy way to create a folder. You can go up from the current path up to 4 times.
@@ -79,11 +81,6 @@ def specific_heat(dim_latt):
         var_energy = statistics.pvariance(energy)
         s_heat.append((dim_latt**2)*var_energy)
     return s_heat
-
-
-a = susceptivity(10)
-
-
 
 def bootstrap_binning(array_osservabile, func, beta, dim):
     '''
