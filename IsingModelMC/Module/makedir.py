@@ -2,6 +2,8 @@ import logging
 import os
 import shutil
 import sys
+import statistics
+import numpy as np
 
 def go_up(level_up):
     '''

@@ -1,7 +1,5 @@
-import statistics
 import numpy as np
 from numba import njit
-import makedir as mk
 
 def initialize_lattice(start, dim_latt):
     '''
@@ -168,24 +166,3 @@ def run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta
         ener = energy(lattice_dim, metr, extfield)
         energies.append(ener)
     return (magnet, energies)
-
-
-def info_save(lattice_dim, beta, observable, name):
-    '''
-    Easy way to create a folder. You can go up from the current path up to 4 times.
-
-    Parameters
-    ----------
-    name_dir : str
-        From level you have set, complete path of the directory you want to create
-    level_up : int, optional
-        How many step up you want to do from the current path. The default is 0.
-
-    Returns
-    -------
-    None.
-    '''    
-    mk.smart_makedir(f"{observable}")
-    np.savetxt(f"results/lattice_dim_{lattice_dim}/{observable}/{name}_beta_{beta:.3f}.txt", observable)
-    mean = statistics.mean(observable)
-    print(f"mean_{name}: {mean}")
