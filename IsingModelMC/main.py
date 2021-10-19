@@ -13,14 +13,18 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     flag = c.FLAG
-    # lattice_dim = c.LATT_DIM
+    lattice_dim = c.LATT_DIM
+    latt_dim_start = c.LATT_DIM_START
+    latt_dim_start = c.LATT_DIM_STOP
+    passo_latt_dim = c.PASSO_LATT_DIM
     i_decorrel = c.IDECORREL
     measures = c.MEASURES
     extfield = c.EXTFIELD
-    # beta = c.BETA
+    beta = c.BETA
     beta_start = c.BETA_START
     beta_stop = c.BETA_STOP
     passo_beta = c.PASSO_BETA
+
     start = time.time()
     for lattice_dim in range(10,100,10):
         mk.smart_makedir(f"results/lattice_dim_{lattice_dim}")
