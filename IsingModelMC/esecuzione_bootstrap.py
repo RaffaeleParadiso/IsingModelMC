@@ -1,6 +1,6 @@
 import numpy as np
 from pathlib import Path
-import module.func as boot
+import module.func as fnc
 
 pathlist= Path("results/lattice_dim_10").glob("**/*.txt")
 
@@ -15,7 +15,7 @@ for path in pathlist:
     if nomefile[0]=='e':
       beta=int(nomefile[16:18])/100
     observable=np.loadtxt(path)
-    sigma_measures.append(boot.bootstrap_binning(observable, 2, beta, 10))
+    sigma_measures.append(fnc.bootstrap_binning(observable, 2, beta, 10))
     print('siamo al file n° ',path, 'e ne mancano ', len(pathlist)-path)
 
 print(sigma_measures)
