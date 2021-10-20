@@ -31,6 +31,7 @@ if __name__ == '__main__':
     latt_dim_start = c.LATT_DIM_START
     latt_dim_stop = c.LATT_DIM_STOP
     passo_latt_dim = c.PASSO_LATT_DIM
+    list_l_dim = c.LATT_DIM_L
     i_decorrel = c.IDECORREL
     measures = c.MEASURES
     extfield = c.EXTFIELD
@@ -40,6 +41,7 @@ if __name__ == '__main__':
 
     start = time.time()
     for lattice_dim in range(latt_dim_start,latt_dim_stop,passo_latt_dim):
+        # i_decorrel = (lattice_dim**2)
         logging.info(f'======= Lattice_dimension: {lattice_dim} =======')
         if new_lattice == True:
             mk.smart_makedir(f"results/lattice_dim_{lattice_dim}/magnetization")
