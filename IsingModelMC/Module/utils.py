@@ -63,7 +63,7 @@ def metropolis(start, dim_latt, lattice_n, beta, extfield):
     None.
     '''
     (npp, nmm) = geometry(dim_latt)
-    for i in range(dim_latt**2):
+    for ivol in range(dim_latt**2):
         i=int(np.random.random()*(dim_latt))
         j=int(np.random.random()*(dim_latt))
         ip_ = npp[i]

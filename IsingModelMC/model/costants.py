@@ -16,5 +16,5 @@ EXTFIELD = 0             # extfield (valore del campo esterno)
 # costanti per studiare il reticolo in caso di temperatura variabile
 BETA_START = 0.300
 BETA_STOP = 0.500
-PASSO_BETA = 0.005
+PASSO_BETA = 0.001
 #------------------------------------------------------------------------------
