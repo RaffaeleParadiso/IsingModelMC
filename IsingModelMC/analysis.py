@@ -1,6 +1,7 @@
 import statistics
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.optimize import curve_fit
 import module.func as fnc
 import model.costants as c
 
@@ -17,9 +18,9 @@ passo_beta = c.PASSO_BETA
 
 # passo montecarlo per la magnetizzazione a fissati beta e L
 
-plt.figure()
-a = np.loadtxt("results/lattice_dim_60/magnetization/magnetization_beta_0.450.txt")
-plt.plot(np.arange(1,100001), a)
+# plt.figure()
+# a = np.loadtxt("results/lattice_dim_60/magnetization/magnetization_beta_0.450.txt")
+# plt.plot(np.arange(1,100001), a)
 
 # grafico magnetizzazione media al variare di beta e L
 
@@ -37,32 +38,31 @@ plt.plot(np.arange(1,100001), a)
 # s3, bet3 = fnc.susceptivity(30)
 # s4, bet4 = fnc.susceptivity(40)
 # s5, bet5 = fnc.susceptivity(50)
-# s6, bet6 = fnc.susceptivity(60)
+s1, bet1 = fnc.susceptivity(60)
+max_index = s1.index(max(s1))
+bet1 = np.array(bet1)
+print(bet1[max_index])
+print(bet1)
+bet1 = bet1 - (bet1[max_index])
+print(bet1)
 
-# storia montecarlo energia media
+s6 = np.log(s1)
+bet6 = np.abs(bet1)
+bet6 = np.log(bet6)
 
-# grafico calore specifico al variare di beta ed L
-
+print(s6)
+print(bet6)
+# # storia montecarlo energia media
 # a, bet = fnc.specific_heat(10)
 
 #FINITE SIZE SCALING PER CALORE SPECIFICO E SUSCETTIVITà MAGNETICA
 
 
-# plt.figure()
 # plt.scatter(bet1, s1)
 # plt.scatter(bet2, s2)
 # plt.scatter(bet3, s3)
 # plt.scatter(bet4, s4)
-# plt.scatter(bet5, s5)
-# plt.scatter(bet6, s6)
-plt.show()
-
-
-
-
-
-
-
+# plt.show()
 
 
 # plt.figure()
