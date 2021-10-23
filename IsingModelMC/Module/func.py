@@ -135,3 +135,10 @@ def bootstrap_binning(array_osservabile, func, beta, dim):
         bin*=2 
         print('iter: ', step, 'bin: ', bin/2, 'time per iter: ', round((time.time()-start), 2))
     return(max(sigma))
+
+def mean_magnetization_rescaled(dim_latt, nu=1):
+    mean, beta_list = mean_magnetization(dim_latt)
+    mean_m = np.array(mean)
+    for i in range(len(beta_list)):
+        mean_m[i] = mean_m[i] *(1/dim_latt**(-beta_list[i]/nu))
+    return mean_m

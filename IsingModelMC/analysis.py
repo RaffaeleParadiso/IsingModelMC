@@ -4,7 +4,7 @@ import numpy as np
 from scipy.optimize import curve_fit
 import module.func as fnc
 import model.costants as c
-
+#==========================================================
 flag = c.FLAG
 latt_dim_start = c.LATT_DIM_START
 latt_dim_stop = c.LATT_DIM_STOP
@@ -15,54 +15,82 @@ extfield = c.EXTFIELD
 beta_start = c.BETA_START
 beta_stop = c.BETA_STOP
 passo_beta = c.PASSO_BETA
-
-# passo montecarlo per la magnetizzazione a fissati beta e L
-
-# plt.figure()
-# a = np.loadtxt("results/lattice_dim_60/magnetization/magnetization_beta_0.450.txt")
-# plt.plot(np.arange(1,100001), a)
-
+#==========================================================
+monte_history_m = False
+monte_history_e = False
+mean = True
+chi = False
+heat = False
+#==========================================================
+# passo montecarlo per la magnetizzazione a fissati beta
+if monte_history_m == True:
+    beta_num = 0.450
+    plt.figure()
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        magnetization = np.loadtxt(f"results/lattice_dim_{i}/magnetization/magnetization_beta_{beta_num}.txt")
+        plt.plot(np.arange(0,100000), magnetization)
+    plt.show()
+#==========================================================
+# passo montecarlo per l'energia a fissati beta
+if monte_history_e == True:
+    beta_num = 0.450
+    plt.figure()
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        energy = np.loadtxt(f"results/lattice_dim_{i}/energies/energies_beta_{beta_num}.txt")
+        plt.plot(np.arange(0,100000), energy)
+    plt.show()
+#==========================================================
 # grafico magnetizzazione media al variare di beta e L
-
-# a1, bet1 = fnc.mean_magnetization(10)
-# a2, bet2 = fnc.mean_magnetization(20)
-# a3, bet3 = fnc.mean_magnetization(30)
-# a4, bet4 = fnc.mean_magnetization(40)
-# a5, bet5 = fnc.mean_magnetization(50)
-# a6, bet6 = fnc.mean_magnetization(60)
-
+if mean == True:
+    plt.figure()
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        mean, bet = fnc.mean_magnetization(i)
+        plt.plot(bet, mean)
+    plt.show()
+#==========================================================
 # grafico suscettività al variare di beta ed L
+if chi == True:
+    plt.figure()
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        chi, bet = fnc.susceptivity(i)
+        plt.scatter(bet, chi)
+    plt.show()
+#==========================================================
+# grafico calore specifico al variare di beta ed L
+if heat == True:
+    plt.figure()
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        speci_heat, bet = fnc.specific_heat(i)
+        plt.scatter(bet, speci_heat)
+    plt.show()
+#==========================================================
 
-# s1, bet1 = fnc.susceptivity(10)
-# s2, bet2 = fnc.susceptivity(20)
-# s3, bet3 = fnc.susceptivity(30)
-# s4, bet4 = fnc.susceptivity(40)
-# s5, bet5 = fnc.susceptivity(50)
-s1, bet1 = fnc.susceptivity(60)
-max_index = s1.index(max(s1))
-bet1 = np.array(bet1)
-print(bet1[max_index])
-print(bet1)
-bet1 = bet1 - (bet1[max_index])
-print(bet1)
 
-s6 = np.log(s1)
-bet6 = np.abs(bet1)
-bet6 = np.log(bet6)
 
-print(s6)
-print(bet6)
-# # storia montecarlo energia media
-# a, bet = fnc.specific_heat(10)
+
+
+
+
+# max_index = s1.index(max(s1))
+# bet1 = np.array(bet1)
+# print(bet1[max_index])
+# print(bet1)
+# bet1 = bet1 - (bet1[max_index])
+# print(bet1)
+
+# s6 = np.log(s1)
+# bet6 = np.abs(bet1)
+# bet6 = np.log(bet6)
+
+# print(s6)
+# print(bet6)
+
+
 
 #FINITE SIZE SCALING PER CALORE SPECIFICO E SUSCETTIVITà MAGNETICA
 
 
-# plt.scatter(bet1, s1)
-# plt.scatter(bet2, s2)
-# plt.scatter(bet3, s3)
-# plt.scatter(bet4, s4)
-# plt.show()
+
 
 
 # plt.figure()
