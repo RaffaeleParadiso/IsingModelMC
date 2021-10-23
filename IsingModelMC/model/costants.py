@@ -2,7 +2,7 @@
 FLAG = 1                # flag (Cold start [spin tutti 1]=0, Hot start [spin random]=1)
 #------------------------------------------------------------------------------
 # costanti per studiare il reticolo in caso di dimensione variabile
-LATT_DIM_START = 10
+LATT_DIM_START = 60
 LATT_DIM_STOP = 70
 PASSO_LATT_DIM = 10
 LATT_DIM_L = [10, 20, 30, 40, 50, 60]
