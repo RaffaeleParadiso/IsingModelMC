@@ -49,7 +49,7 @@ if __name__ == '__main__':
         for beta in np.arange(beta_start,beta_stop,passo_beta):
             if os.path.exists(f'results/lattice_dim_{lattice_dim}/magnetization/magnetization_beta_{beta:.3f}.txt') == True:
                 if os.path.exists(f'results/lattice_dim_{lattice_dim}/energies/energies_beta_{beta:.3f}.txt') == True:
-                    continue    
+                    continue
             logging.info(f'============ Beta: {beta:.3f} ============')
             mag, en = ut.run_metropolis(flag, lattice_dim, ret_, i_decorrel, measures, extfield, beta)
             print(f"time elapsed: {time.time() - start}")
