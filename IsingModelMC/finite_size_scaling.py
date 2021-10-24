@@ -1,3 +1,4 @@
+from genericpath import exists
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -24,8 +25,9 @@ pathernoster2='results_analysis/calore_specifico'
 pathernoster3='results_analysis/magnetizzazione_riscalata'
 pathernoster4='results_analysis/suscettività_riscalata'
 pathernoster5='results_analysis/beta_riscalato'
+pathernoster6='results_analysis/magnetizzazione_media'
 
-pathlist=[path, pathernoster0, pathernoster1, pathernoster2, pathernoster3, pathernoster4, pathernoster5]
+pathlist=[path, pathernoster0, pathernoster1, pathernoster2, pathernoster3, pathernoster4, pathernoster5, pathernoster6]
 # try:
 #     for item in pathlist:
 #         os.mkdir(item)
@@ -49,12 +51,13 @@ for item in pathlist:
 
 '''Submain'''
 
-for lattice_dim in range(10, 40, 10):
+for lattice_dim in range(40, 50, 10):
     start=time.time()
     lista_beta=[]
     lista_suscettività=[]
     lista_calore_specifico=[]
-    
+    lista_magnetizzazione_media=[]
+
     #=========beta per reticolo {lattice_dim}============#
     if os.path.exists(f'results_analysis/beta/dim_{lattice_dim}_beta_list.txt') == True:
                 continue 
@@ -76,13 +79,21 @@ for lattice_dim in range(10, 40, 10):
     mean_magn_abs_rescaled=[]
    
 
-    #=========magnetizzazione riscalata============#
-    if os.path.exists(f'results_analysis/magnetizzazione_riscalata/dim_{lattice_dim}_magn_rescaled.txt') == True:
-                continue
+    #=========magnetizzazione riscalata e mgnetizzazione media============#
+    ##=============troppi if statements in tutte ste istruzioni===========#
+    ###============il primo if statement non si puù guardare==============#
+    if ((os.path.exists(f'results_analysis/magnetizzazione_riscalata/dim_{lattice_dim}_magn_rescaled.txt') == True) \
+        and (os.path.exists(f'results_analysis/magnetizzazione_riscalata/dim_{lattice_dim}_magn_rescaled.txt')== True)):
+            continue
     else:
-            mean_magn_abs_rescaled=func.mean_magnetization_rescaled(lattice_dim)
+            # mean_magn_abs_rescaled=func.mean_magnetization_rescaled(lattice_dim)
+            mean_magn_abs_rescaled, lista_beta = func.mean_magnetization(lattice_dim)
+            np.savetxt(f'results_analysis/magnetizzazione_media/dim_{lattice_dim}_mean_magn.txt', mean_magn_abs_rescaled)
+            mean_magn_abs_rescaled=np.array(mean_magn_abs_rescaled)*lattice_dim**(1/8)
             np.savetxt(f'results_analysis/magnetizzazione_riscalata/dim_{lattice_dim}_magn_rescaled.txt', mean_magn_abs_rescaled)
-   
+            np.savetxt(f'results_analysis/magnetizzazione_media/dim_{lattice_dim}_mean_magn.txt', mean_magn_abs_rescaled)
+
+
     #=========beta riscalati============#
     if os.path.exists(f'results_analysis/beta_riscalato/dim_{lattice_dim}_beta_rescaled.txt') == True:
             continue
@@ -99,6 +110,7 @@ for lattice_dim in range(10, 40, 10):
             #  chi_rescaled.append([ii*1/(lattice_dim**(gamma/nu)) for ii in lista_suscettività])
              np.savetxt(f'results_analysis/suscettività_riscalata/dim_{lattice_dim}_suscettività_rescaled.txt', lista_suscettività_arr)
 
+        
     #=========calore specifico============#
     if os.path.exists(f'results_analysis/calore_specifico/dim_{lattice_dim}_calore_specifico.txt')==True:
                 continue
@@ -108,4 +120,3 @@ for lattice_dim in range(10, 40, 10):
     
     print('tempo per reticolo:', lattice_dim, 'x', lattice_dim,' ', time.time()-start)
         
-    
