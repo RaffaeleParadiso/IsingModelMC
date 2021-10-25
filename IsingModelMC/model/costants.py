@@ -14,7 +14,7 @@ MEASURES = 100000        # number of measures
 EXTFIELD = 0             # extfield (valore del campo esterno)
 #------------------------------------------------------------------------------
 # costanti per studiare il reticolo in caso di temperatura variabile
-BETA_START = 0.370
+BETA_START = 0.377
 BETA_STOP = 0.500
 PASSO_BETA = 0.001
 #------------------------------------------------------------------------------
