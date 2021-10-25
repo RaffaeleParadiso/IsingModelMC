@@ -100,6 +100,28 @@ def specific_heat(dim_latt):
 
 def bootstrap_binning(array_osservabile, func, beta, dim):
     '''
+    Returns the max value of the standard deviation for 
+    the observable array calculated for all the values of beta
+    ==========
+    Parameters
+    ----------
+    array_osservabile :
+
+    func : int
+        Define the behaviour of the function.
+        If is set to 1 : return the maximum value of the mean of all the array for a fixed L.
+        If is set to 2 : return the maximum value of the variance of all the array for a fixed L.
+        If is set to 3 : return the maximum value of the st. dev. of all the array for a fixed L.
+
+    beta :
+
+    dim :
+    ==========
+    Returns
+    ----------
+    max(sigma) :
+
+    ==========
     '''
     bin=1+len(array_osservabile)//1000
     sample=[]
@@ -128,10 +150,10 @@ def bootstrap_binning(array_osservabile, func, beta, dim):
             if func == 3:
                 square2=(np.mean(sample))**2
                 square1=[samples**2 for samples in sample]
-                osservabile.append(dim**2*beta*(statistics.mean(square1)-square2))      
-            # osservabile.append(obs) #ho una len(osservabile)=100
+                osservabile.append(dim**2*beta*(statistics.mean(square1)-square2))
         sigma.append(np.std(osservabile)) #len(sigma)=numero di bin diversi
+
         step+=1
         bin*=2 
         print('iter: ', step, 'bin: ', bin/2, 'time per iter: ', round((time.time()-start), 2))
-    return(max(sigma))
+    return (max(sigma))

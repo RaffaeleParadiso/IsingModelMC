@@ -43,9 +43,11 @@ if monte_history_e == True:
 # grafico magnetizzazione media al variare di beta e L
 if mean == True:
     plt.figure()
-    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
-        mean, bet = fnc.mean_magnetization(i)
-        plt.plot(bet, mean)
+    # for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+    mean, bet = fnc.mean_magnetization(10)
+    # plt.plot(bet, mean)
+    error = np.loadtxt("results/lattice_dim_10/error_magnetization.txt")
+    plt.errorbar(bet, mean, yerr=error)
     plt.show()
 #==========================================================
 # grafico suscettività al variare di beta ed L

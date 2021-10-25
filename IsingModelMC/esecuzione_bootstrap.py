@@ -33,5 +33,3 @@ for cartella in os.listdir(path):
       np.savetxt(f'{directory}/error_specific_heat.txt', sigma_measure_specific_heat)
       np.savetxt(f'{directory}/error_susceptibility.txt', sigma_measure_susceptibility)
       np.savetxt(f'{directory}/error_magnetization.txt', sigma_measure_magnetization)
-
-
