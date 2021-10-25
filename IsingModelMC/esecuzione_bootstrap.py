@@ -26,7 +26,7 @@ for cartella in os.listdir(path):
         
          if a[0:1]=='m':
             beta=float(a[19:24])
-            osservabile=np.loadtxt(os.path.join(directory, name))
+            osservabile=np.loadtxt(f"{path}/{cartella}/magnetization/{name}")
             sigma_measure_magnetization.append(fnc.bootstrap_binning(osservabile, 1, beta, dim))
             sigma_measure_susceptibility.append(fnc.bootstrap_binning(osservabile, 2, beta, dim))
       #forse vanno sull'altro for 
