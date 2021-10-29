@@ -112,11 +112,11 @@ if __name__=='__main__':
           print(f'Calcolo array di sigma su <M> e X(Chi) per dimensione', lattice_dim, 'x', \
                 lattice_dim, 'ha impiegato:', round(time.time()-start, 2), 's')
 
-      np.savetxt(f'results/lattice_dim_{lattice_dim}/energies/sigma_specific_heat.txt', sigma_c_array) 
+      np.savetxt(f'results/lattice_dim_{lattice_dim}/sigma_specific_heat_lattice_dim_{lattice_dim}.txt', sigma_c_array) 
       print('Array calore creato')   
-      np.savetxt(f'results/lattice_dim_{lattice_dim}/magnetization/sigma_susceptibility.txt', sigma_chi_array)
+      np.savetxt(f'results/lattice_dim_{lattice_dim}/sigma_susceptibility_lattice_dim_{lattice_dim}.txt', sigma_chi_array)
       print('Array chi creato')
-      np.savetxt(f'results/lattice_dim_{lattice_dim}/magnetization/sigma_mean_magn.txt', sigma_mean_array)
+      np.savetxt(f'results/lattice_dim_{lattice_dim}/sigma_mean_magn_lattice_dim_{lattice_dim}.txt', sigma_mean_array)
       print('Array mean creato')
       ###########=================verifica con if statement============================####################
       ###########======================================================================####################
