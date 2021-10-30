@@ -111,7 +111,7 @@ if __name__=='__main__':
             sigma_mean_array.append(sigma_mean)
           print(f'Calcolo array di sigma su <M> e X(Chi) per dimensione', lattice_dim, 'x', \
                 lattice_dim, 'ha impiegato:', round(time.time()-start, 2), 's')
-
+###########qua è da sistemare####################################
       np.savetxt(f'results/lattice_dim_{lattice_dim}/sigma_specific_heat_lattice_dim_{lattice_dim}.txt', sigma_c_array) 
       print('Array calore creato')   
       np.savetxt(f'results/lattice_dim_{lattice_dim}/sigma_susceptibility_lattice_dim_{lattice_dim}.txt', sigma_chi_array)
