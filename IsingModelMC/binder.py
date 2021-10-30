@@ -75,7 +75,8 @@ for beta in list_beta:
 #######################===========================================================================#######################
 #######################===================Binder vs beta for various lattices=====================#######################
 #######################!!!!!!!!!!!!!!!!!!!!!!!ancora non eseguito!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#######################
-'''Calcolo cumulante di Binder per vari beta a lattice fissato, con i_decorrel/10, measures/10, ogni array ha len=10000'''
+'''Calcolo cumulante di Binder per vari beta a lattice fissato, con i_decorrel/10, measures/10, ogni array ha len=10000.
+Ciò dovrà corrispondere al grafico di Figura 19 a pagina 23 di quella relazione bella'''
 
 path='results_analysis/binder_vs_beta'
 if os.path.exists(path)==True:
@@ -83,24 +84,30 @@ if os.path.exists(path)==True:
 else:
     os.mkdir(path)
 for nlatt in range(10, 60, 10):
+    
     if os.path.exists(f'{path}/binder_vs_beta_latt_{nlatt}') == True:
-        continue
+        print('Cartella binder_vs_beta per lattice = ', nlatt, 'esistente già')
     else:
         os.mkdir(f'{path}/binder_vs_beta_latt_{nlatt}')
-        for beta in np.arange(0.34, 0.48, 0.002):
-            start=time.time()
-            if os.path.exists(f'{path}/binder_vs_beta_latt_{nlatt}/binder_beta_{beta}_lattice_{nlatt}.txt')==True:
-                continue
-            else:
-                beta_arr=[]
-                beta_arr.append(beta)
-                extfield=0
-                lattice_n=ut.initialize_lattice(1, nlatt)
-                xmagn, energies = ut.run_metropolis(1, nlatt, lattice_n, i_decorrel/10, measures/10, extfield, beta)
-                np.savetxt(f'{path}/binder_vs_beta_latt_{nlatt}/binder_beta_{beta}_lattice_{nlatt}.txt', xmagn)
-                pattaggio=os.path.join(path, f'binder_vs_beta_latt_{nlatt}/binder_beta_{beta}_lattice_{nlatt}.txt')
-                print(f'Tempo impiegato per la creazione di {pattaggio} è di: ', round(time.time()-start,2))
-        np.savetxt(f'{path}/binder_vs_beta_latt_{nlatt}/array_beta_per_lattice_{nlatt}.txt', beta_arr)
+
+    beta_arange=np.arange(0.34, 0.48, 0.002)
+    ii=1
+    for beta_ in beta_arange:
+        beta_=round(beta_, 4)
+        start=time.time()
+        if os.path.exists(f'{path}/binder_vs_beta_latt_{nlatt}/binder_{ii}_beta_{beta_}_lattice_{nlatt}.txt')==True:
+            print(f'Il file binder_{ii}_beta_{beta_}_lattice_{nlatt}.txt esiste già, il prossimo!!!')
+            ii+=1
+        else:
+            extfield=0
+            lattice_n=ut.initialize_lattice(1, nlatt)
+            xmagn, energies = ut.run_metropolis(1, nlatt, lattice_n, i_decorrel/10, measures/10, extfield, beta_)
+            print('beta quiiiiiii', beta_)
+            np.savetxt(f'{path}/binder_vs_beta_latt_{nlatt}/binder_{ii}_beta_{beta_}_lattice_{nlatt}.txt', xmagn)
+            ii+=1
+            pattaggio=os.path.join(path, f'binder_vs_beta_latt_{nlatt}/binder_{ii}_beta_{beta_}_lattice_{nlatt}.txt')
+            print(f'Tempo impiegato per la creazione di {pattaggio} è di: ', round(time.time()-start,2))
+# np.savetxt(f'{path}\binder_beta_arange.txt', beta_arange)
 
 
 
