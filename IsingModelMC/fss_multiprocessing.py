@@ -34,6 +34,7 @@ def finite_size_scaling(count, lattice_dim):
     if count[0]==0 and count[1]==0:
       print('Calcolo e riscalo la media')
       mean_magn, beta_list=func.mean_magnetization(lattice_dim)#scemo chi legge
+      beta_list=np.array(np.round(beta_list, decimals=3, out=None))
       mean_magn_rescaled=np.array(mean_magn)*lattice_dim**(1/8)
     if (count[2]==0 and count[3]==0) or (count[2]==0 or count[3]==0):
       print('Calcolo e riscalo la chi')
@@ -57,7 +58,7 @@ if __name__=='__main__':
     print(count)
     for element in path_list:
         if os.path.exists(os.path.join(path, element))==False:
-            count[ii]=0 ####in base ai valori di questo array eseyo vari pezzi della funzione di fss    
+            count[ii]=0 ####in base ai valori di questo array eseguo vari pezzi della funzione di fss    
         else:
             count[ii]=1
         ii+=1    
