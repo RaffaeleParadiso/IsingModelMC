@@ -9,28 +9,29 @@ import os
 import re
 import statistics
 import time
+from numba.core.decorators import jit
 import numpy as np
-from numba import njit
+from numba import njit, float64, types, jit
 
 import multiprocessing
 import time
 from functools import partial
 ##################===========================bootsrtap con binning functions======================================#############################
 ##################===============================================================================================#############################
-@njit(fastmath=True)
+@njit(float64[:](float64[:],float64), cache=True, parallel=True, fastmath=True)
 def ricampionamento(array_osservabile, bin):
   sample=[]
   for _ in range(int(len(array_osservabile)/bin)):
     ii=np.random.randint(0, len(array_osservabile)+1)
     sample.extend(array_osservabile[ii:min(ii+bin, len(array_osservabile))]) 
-  return sample
+  return np.array(sample)
 
-@njit(fastmath=True)
+@njit(types.UniTuple(float64,2)(float64[:], float64, float64), cache=True, parallel=True, fastmath=True)
 def calcoliamo_lamanna(array_osservabile, nlatt, beta):
   abs=np.abs(array_osservabile)
   susceptibility=np.var(abs)*nlatt**2*beta
   mean=np.mean(abs)
-  return susceptibility, mean
+  return float(susceptibility), float(mean)
 ###########=====================bootstrap con binning core=====================##############
 ###########====================================================================##############
 def bootstrap_binning(array_osservabile, beta, dim, bin):
