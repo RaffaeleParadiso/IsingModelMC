@@ -43,9 +43,9 @@ if __name__=='__main__':
         j = latt_dim_passo
         for i in range(len(results)):
             mean_m_rescaled, beta_l, beta_r = results[i]
-            np.savetxt(f'{path}/magnetizzazione_riscalata/magnetizzazione_riscalata_{j}.txt', mean_m_rescaled)
-            np.savetxt(f'{path}/beta/beta_{j}.txt', beta_l, fmt="%.3f")
-            np.savetxt(f'{path}/beta_riscalato/beta_riscalato_{j}.txt', beta_r, fmt="%.3f")
+            np.savetxt(f'{path}/magnetizzazione_riscalata/magnetizzazione_riscalata_lattice_dim_{j}.txt', mean_m_rescaled)
+            np.savetxt(f'{path}/beta/beta_lattice_dim_{j}.txt', beta_l, fmt="%.3f")
+            np.savetxt(f'{path}/beta_riscalato/beta_riscalato_lattice_dim_{j}.txt', beta_r, fmt="%.3f")
             j += latt_dim_passo
 
     with multiprocessing.Pool(processes=None) as pool:
@@ -53,7 +53,7 @@ if __name__=='__main__':
         j = latt_dim_passo
         for i in range(len(results)):
             susc_riscaled = results[i]
-            np.savetxt(f"{path}/suscettività_riscalata/suscettività_riscalata_{j}.txt", susc_riscaled)
+            np.savetxt(f"{path}/suscettività_riscalata/suscettività_riscalata_lattice_dim_{j}.txt", susc_riscaled)
             j += latt_dim_passo
 
     with multiprocessing.Pool(processes=None) as pool:
@@ -61,5 +61,5 @@ if __name__=='__main__':
         j = latt_dim_passo
         for i in range(len(results)):
             specific_h = results[i]
-            np.savetxt(f"{path}/calore_specifico/calore_specifico_{j}.txt", specific_h)
+            np.savetxt(f"{path}/calore_specifico/calore_specifico_lattice_dim_{j}.txt", specific_h)
             j += latt_dim_passo
