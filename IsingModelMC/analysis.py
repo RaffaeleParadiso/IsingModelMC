@@ -16,10 +16,10 @@ passo_beta = c.PASSO_BETA
 
 monte_history_m = False
 monte_history_e = False
-mean = False
+mean = True
 chi = False
 heat = False
-binder = True
+binder = False
 
 # passo montecarlo per la magnetizzazione a fissati beta
 if monte_history_m == True:
@@ -42,11 +42,11 @@ if monte_history_e == True:
 # grafico magnetizzazione media al variare di beta e L
 if mean == True:
     plt.figure()
-    # for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
-    mean, bet = fnc.mean_magnetization(10)
-    # plt.plot(bet, mean)
-    error = np.loadtxt("results/lattice_dim_10/error_magnetization.txt")
-    plt.errorbar(bet, mean, yerr=error)
+    bet = np.loadtxt("results_analysis/beta/beta_lattice_dim_10.txt")
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        mean = np.loadtxt(f"results_analysis/magnetizzazione_media/magnetizzazione_media_lattice_dim_{i}.txt")
+        error = np.loadtxt(f"results_analysis/magnetizzazione_media/sigma_mean_magn_lattice_dim_{i}.txt")
+        plt.errorbar(bet, mean, yerr=2*error, fmt='.')
     plt.show()
 
 # grafico suscettività al variare di beta ed L
@@ -72,8 +72,8 @@ if binder == True:
     bet = np.loadtxt("results_analysis/binder/beta_range_0.34_0.48.txt")
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
         bin = np.loadtxt(f"results_analysis/binder/binder_lattice_dim_{i}.txt")
-        a = np.loadtxt(f"results_analysis/binder/binder_sigma_lattice_dim_{i}.txt")
-        plt.errorbar(bet, bin, yerr=2*a, fmt=".")
+        error = np.loadtxt(f"results_analysis/binder/binder_sigma_lattice_dim_{i}.txt")
+        plt.errorbar(bet, bin, yerr=2*error, fmt=".")
     plt.show()
 
 # a = np.loadtxt("results/lattice_dim_60/magnetization/magnetization_beta_0.400.txt")
