@@ -1,7 +1,5 @@
-import statistics
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.optimize import curve_fit
 import module.func as fnc
 import model.costants as c
 
@@ -21,7 +19,7 @@ monte_history_e = False
 mean = False
 chi = False
 heat = False
-binder = False
+binder = True
 
 # passo montecarlo per la magnetizzazione a fissati beta
 if monte_history_m == True:
@@ -74,7 +72,8 @@ if binder == True:
     bet = np.loadtxt("results_analysis/binder/beta_range_0.34_0.48.txt")
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
         bin = np.loadtxt(f"results_analysis/binder/binder_lattice_dim_{i}.txt")
-        plt.scatter(bet, bin, s=0.4)
+        a = np.loadtxt(f"results_analysis/binder/binder_sigma_lattice_dim_{i}.txt")
+        plt.errorbar(bet, bin, yerr=2*a, fmt=".")
     plt.show()
 
 # a = np.loadtxt("results/lattice_dim_60/magnetization/magnetization_beta_0.400.txt")

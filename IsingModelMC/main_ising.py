@@ -1,18 +1,13 @@
-''' Programma per la simulazione del modello di ising bidimensionale
-    con possibilita` di inserire un campo magnetico esterno
-'''
 import argparse
 import logging
 import os.path
 import statistics
 import time
 import numpy as np
-
 import model.costants as c
 import module.func as fnc
 import module.makedir as mk
 import module.utils as ut
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='2D Ising Model')
@@ -62,10 +57,11 @@ if __name__ == '__main__':
             mean_ener = statistics.mean(en)
             print(f"mean_magn: {mean_magn}")
             print(f"mean_ener: {mean_ener}")
-    mk.smart_makedir("results_analysis/magnetizzazione_media")
-    mk.smart_makedir("results_analysis/suscettività")
+
     for i in range(latt_dim_start,latt_dim_stop,passo_latt_dim):
         mean_m, beta_list = fnc.mean_magnetization(i)
+        mk.smart_makedir("results_analysis/magnetizzazione_media")
         np.savetxt(f"results_analysis/magnetizzazione_media/magnetizzazione_media_lattice_dim_{i}.txt", mean_m)
         chi, beta_list = fnc.susceptivity(i)
+        mk.smart_makedir("results_analysis/suscettività")
         np.savetxt(f"results_analysis/suscettività/suscettività_lattice_dim_{i}.txt", chi)
