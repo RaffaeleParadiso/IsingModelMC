@@ -2,12 +2,13 @@ import os
 import re
 from numba import njit, float64
 import numpy as np
+import model.costants as c
 import module.makedir as mk
 path='results'
 lattice_directories=['results/lattice_dim_10/magnetization','results/lattice_dim_20/magnetization','results/lattice_dim_30/magnetization','results/lattice_dim_40/magnetization','results/lattice_dim_50/magnetization']
 
-beta_start=0.340
-beta_stop=0.480
+beta_start = c.BETA_START
+beta_stop = c.BETA_STOP
 
 beta_list=np.loadtxt(f'results_analysis/beta/beta_lattice_dim_10.txt')
 beta_list_range=[x for x in beta_list if x < 0.481 and x > 0.339]

@@ -32,19 +32,16 @@ def spec_heat(lattice_dim):
 
 if __name__=='__main__':
     path='results_analysis'
-    mk.smart_makedir(f'{path}/beta')
-    mk.smart_makedir(f'{path}/beta_riscalato')
-    mk.smart_makedir(f'{path}/calore_specifico')
-    mk.smart_makedir(f'{path}/magnetizzazione_riscalata')
-    mk.smart_makedir(f'{path}/suscettività_riscalata')
-
     with multiprocessing.Pool(processes=None) as pool:
         results = pool.map(mean_m_r, latt_dim_list)
         j = latt_dim_passo
         for i in range(len(results)):
             mean_m_rescaled, beta_l, beta_r = results[i]
+            mk.smart_makedir(f'{path}/magnetizzazione_riscalata')
             np.savetxt(f'{path}/magnetizzazione_riscalata/magnetizzazione_riscalata_lattice_dim_{j}.txt', mean_m_rescaled)
+            mk.smart_makedir(f'{path}/beta')
             np.savetxt(f'{path}/beta/beta_lattice_dim_{j}.txt', beta_l, fmt="%.3f")
+            mk.smart_makedir(f'{path}/beta_riscalato')
             np.savetxt(f'{path}/beta_riscalato/beta_riscalato_lattice_dim_{j}.txt', beta_r, fmt="%.3f")
             j += latt_dim_passo
 
@@ -53,6 +50,7 @@ if __name__=='__main__':
         j = latt_dim_passo
         for i in range(len(results)):
             susc_riscaled = results[i]
+            mk.smart_makedir(f'{path}/suscettività_riscalata')
             np.savetxt(f"{path}/suscettività_riscalata/suscettività_riscalata_lattice_dim_{j}.txt", susc_riscaled)
             j += latt_dim_passo
 
@@ -61,5 +59,6 @@ if __name__=='__main__':
         j = latt_dim_passo
         for i in range(len(results)):
             specific_h = results[i]
+            mk.smart_makedir(f'{path}/calore_specifico')
             np.savetxt(f"{path}/calore_specifico/calore_specifico_lattice_dim_{j}.txt", specific_h)
             j += latt_dim_passo
