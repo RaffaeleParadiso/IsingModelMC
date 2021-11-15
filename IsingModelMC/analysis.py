@@ -17,7 +17,7 @@ passo_beta = c.PASSO_BETA
 monte_history_m = False
 monte_history_e = False
 mean = True
-chi = False
+chi = True
 heat = False
 binder = False
 
@@ -42,8 +42,8 @@ if monte_history_e == True:
 # grafico magnetizzazione media al variare di beta e L
 if mean == True:
     plt.figure()
-    bet = np.loadtxt("results_analysis/beta/beta_lattice_dim_10.txt")
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        bet = np.loadtxt(f"results_analysis/beta/beta_lattice_dim_{i}.txt")
         mean = np.loadtxt(f"results_analysis/magnetizzazione_media/magnetizzazione_media_lattice_dim_{i}.txt")
         error = np.loadtxt(f"results_analysis/magnetizzazione_media/sigma_mean_magn_lattice_dim_{i}.txt")
         plt.errorbar(bet, mean, yerr=2*error, fmt='.')
@@ -53,9 +53,10 @@ if mean == True:
 if chi == True:
     plt.figure()
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
-        bet = np.loadtxt("results_analysis/beta/beta_lattice_dim_10.txt")
+        bet = np.loadtxt(f"results_analysis/beta/beta_lattice_dim_{i}.txt")
         chi = np.loadtxt(f"results_analysis/suscettività/suscettività_lattice_dim_{i}.txt")
-        plt.scatter(bet, chi)
+        error = np.loadtxt(f"results_analysis/suscettività/sigma_susceptibility_lattice_dim_{i}.txt")
+        plt.errorbar(bet, chi, yerr=2*error, fmt='.')
     plt.show()
 
 # grafico calore specifico al variare di beta ed L
