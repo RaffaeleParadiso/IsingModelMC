@@ -14,7 +14,7 @@ for ii in np.arange(10, 60, 10):
     susc_resc=np.loadtxt(f'{path}/{elem[7]}/{elem[7]}_lattice_dim_{ii}.txt')
     err_susc=np.loadtxt(f'{path}/{elem[6]}/sigma_susceptibility_lattice_dim_{ii}.txt')
     beta_resc=np.loadtxt(f'{path}/{elem[1]}/{elem[1]}_lattice_dim_{ii}.txt')
-    plt.errorbar(beta_resc, susc_resc, yerr=err_susc*2*(1/ii**(7/4)), label=f'$\chi$ riscalata latt {ii}', fmt='.', mfc='red',
+    plt.errorbar(beta_resc, susc_resc, yerr=err_susc*2*(1/ii**(7/4)), label=f'Lattice: {ii}', fmt='.', mfc='red',
                   mec='green', ms=0.4, mew=2, capsize=2)  
 plt.title(f'Suscettività riscalata', fontsize=18)
 plt.xlabel(r'($\beta$)L', fontsize=14)
@@ -72,7 +72,7 @@ beta_range=np.loadtxt(f'{path}/{elem[2]}/beta_range_0.34_0.48.txt')
 for ii in np.arange(10,60,10):
     binder=np.loadtxt(f'{path}/{elem[2]}/{elem[2]}_lattice_dim_{ii}.txt')
     err_bind=np.loadtxt(f'{path}/{elem[2]}/binder_sigma_lattice_dim_{ii}.txt')
-    plt.errorbar(beta_range, binder, yerr=err_bind*2, fmt='.', mfc='red',
+    plt.errorbar(beta_range, binder, yerr=err_bind*2, label=f'Lattice: {ii}',fmt='.', mfc='red',
                   mec='green', ms=0.4, mew=2, capsize=2) 
 plt.title('Cumulante di Binder', fontsize=18)
 plt.xlabel(r'$\beta$', fontsize= 14)
