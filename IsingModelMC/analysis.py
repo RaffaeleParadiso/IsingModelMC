@@ -13,13 +13,13 @@ beta_start = c.BETA_START
 beta_stop = c.BETA_STOP
 passo_beta = c.PASSO_BETA
 
-monte_history_m = False # grafico passo montecarlo per la magnetizzazione a fissati beta
-monte_history_e = False # grafico passo montecarlo per l'energia a fissati beta
-mean = False            # grafico magnetizzazione media al variare di beta e L
-chi = False             # grafico suscettività al variare di beta ed L
-heat = False            # grafico calore specifico al variare di beta ed L
-binder = False          # grafico cumulante di Binder
-mean_r = False          # grafico magnetizzazione riscalata al variare di beta e L
+monte_history_m = True # grafico passo montecarlo per la magnetizzazione a fissati beta
+monte_history_e = True # grafico passo montecarlo per l'energia a fissati beta
+mean = True            # grafico magnetizzazione media al variare di beta e L
+chi = True             # grafico suscettività al variare di beta ed L
+heat = True            # grafico calore specifico al variare di beta ed L
+binder = True          # grafico cumulante di Binder
+mean_r = True          # grafico magnetizzazione riscalata al variare di beta e L
 susc_r = True          # grafico suscettività riscalata
 
 # passo montecarlo per la magnetizzazione a fissati beta
@@ -28,7 +28,7 @@ if monte_history_m == True:
     plt.figure()
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
         magnetization = np.loadtxt(f"results/lattice_dim_{i}/magnetization/magnetization_beta_{beta_num:.3f}.txt")
-        plt.plot(np.arange(0,100000), magnetization)
+        plt.plot(np.arange(0,len(magnetization)), magnetization)
     plt.show()
 
 # passo montecarlo per l'energia a fissati beta
@@ -37,7 +37,7 @@ if monte_history_e == True:
     plt.figure()
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
         energy = np.loadtxt(f"results/lattice_dim_{i}/energies/energies_beta_{beta_num:.3f}.txt")
-        plt.plot(np.arange(0,100000), energy)
+        plt.plot(np.arange(0,len(energy)), energy)
     plt.show()
 
 # grafico magnetizzazione media al variare di beta e L
