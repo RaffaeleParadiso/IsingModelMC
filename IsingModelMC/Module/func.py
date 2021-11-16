@@ -63,7 +63,7 @@ def susceptivity(dim_latt):
         media = statistics.mean(magnetization**2)
         absolute = np.abs(magnetization)
         absolutesquared = statistics.mean(absolute)
-        s = (dim_latt**2)*((media)-(absolutesquared**2))*(beta)
+        s = (dim_latt**2)*((media)-(absolutesquared**2))
         chi.append(s)
     return chi, beta_list
 

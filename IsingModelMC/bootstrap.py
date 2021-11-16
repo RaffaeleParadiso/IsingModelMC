@@ -5,17 +5,18 @@ import re
 import statistics
 import time
 from functools import partial
-from numba import njit, float64, types, jit
+from numba import njit, float64, types
 import numpy as np
 import bootstrap_binder as btp
 
-gorbaciov=False #sulla magnetizzazione eseguo o no?
+magn=True
+ener= True
 logging.basicConfig(level=logging.INFO)
 
 @njit(types.UniTuple(float64,2)(float64[:], float64, float64), cache=True, parallel=True, fastmath=True)
 def calcoliamo_lamanna(array_osservabile, nlatt, beta):
   abs=np.abs(array_osservabile)
-  susceptibility=np.var(abs)*nlatt**2*beta
+  susceptibility=np.var(abs)*nlatt**2
   mean=np.mean(abs)
   return float(susceptibility), float(mean)
 
@@ -67,25 +68,23 @@ if __name__=='__main__':
         with multiprocessing.Pool(processes=7) as pool:
           bin_values=[101,202,404,808,1616,3232,6464]
           dim=lattice_dim
-          if files.startswith('e') == True:
+          if ener == True:
+            if files.startswith('e') == True:
               func=1
               temp = re.findall(r'\d+', energies_magn_file)   
               res= list(map(int, temp)) 
               en_array=np.loadtxt(f'{energies_magn_file}')
               beta_en=round(res[2]/1000, 4)
               partial_bootstrap=partial(bootstrap_binning, en_array, beta_en, dim, func, en_magn_file)
-              results=np.array(pool.map(partial_bootstrap, bin_values))
+              results=np.array(pool.map(partial_bootstrap, bin_values), dtype="object")
               sigma_specific_heat=max(results[0:6,0])
               pool.close()
               pool.join()
               sigma_specific_heat_array.append(sigma_specific_heat)
               tic=time.perf_counter()
               logging.info(f'time {tic-toc:.4f}, s, dim: {lattice_dim}, file {files}')
-          else:
-            if gorbaciov==False:
-              logging.info('Passing on magn')
-              pass
-            else:
+          if magn == True:
+            if files.startswith('m') == True:
               func=2
               temp = re.findall(r'\d+', energies_magn_file)   
               res= list(map(int, temp)) 
@@ -93,13 +92,13 @@ if __name__=='__main__':
               en_magn_file=energies_magn_file
               beta_magn=round(res[2]/1000, 4)
               partial_bootstrap=partial(bootstrap_binning, magn_array, beta_magn, dim, func, en_magn_file)
-              results=np.array(pool.map(partial_bootstrap, bin_values))
+              results=np.array(pool.map(partial_bootstrap, bin_values), dtype="object")
               sigma_chi=max(results[0:6,1])
               sigma_magn= max(results[0:6, 2])
               pool.close()
               pool.join()
               sigma_chi_array.append(sigma_chi)
               sigma_mean_array.append(sigma_magn)
-    if gorbaciov==True: np.savetxt(f'results_analysis/suscettività/sigma_susceptibility_lattice_dim_{lattice_dim}.txt', sigma_chi_array)
-    if gorbaciov==True: np.savetxt(f'results_analysis/magnetizzazione_media/sigma_mean_magn_lattice_dim_{lattice_dim}.txt', sigma_mean_array)
-    np.savetxt(f'results_analysis/calore_specifico/sigma_specific_heat_lattice_dim_{lattice_dim}.txt', sigma_specific_heat_array)
+    if magn==True: np.savetxt(f'results_analysis/suscettività/sigma_susceptibility_lattice_dim_{lattice_dim}.txt', sigma_chi_array)
+    if magn==True: np.savetxt(f'results_analysis/magnetizzazione_media/sigma_mean_magn_lattice_dim_{lattice_dim}.txt', sigma_mean_array)
+    if ener==True: np.savetxt(f'results_analysis/calore_specifico/sigma_specific_heat_lattice_dim_{lattice_dim}.txt', sigma_specific_heat_array)

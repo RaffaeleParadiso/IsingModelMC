@@ -57,11 +57,10 @@ if __name__ == '__main__':
             mean_ener = statistics.mean(en)
             print(f"mean_magn: {mean_magn}")
             print(f"mean_ener: {mean_ener}")
-
+    mk.smart_makedir("results_analysis/suscettività")
+    mk.smart_makedir("results_analysis/magnetizzazione_media")
     for i in range(latt_dim_start,latt_dim_stop,passo_latt_dim):
         mean_m, beta_list = fnc.mean_magnetization(i)
-        mk.smart_makedir("results_analysis/magnetizzazione_media")
         np.savetxt(f"results_analysis/magnetizzazione_media/magnetizzazione_media_lattice_dim_{i}.txt", mean_m)
         chi, beta_list = fnc.susceptivity(i)
-        mk.smart_makedir("results_analysis/suscettività")
         np.savetxt(f"results_analysis/suscettività/suscettività_lattice_dim_{i}.txt", chi)
