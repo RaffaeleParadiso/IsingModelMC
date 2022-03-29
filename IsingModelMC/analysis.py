@@ -15,12 +15,13 @@ passo_beta = c.PASSO_BETA
 
 monte_history_m = False # grafico passo montecarlo per la magnetizzazione a fissati beta
 monte_history_e = False # grafico passo montecarlo per l'energia a fissati beta
-mean = True           # grafico magnetizzazione media al variare di beta e L
-chi = True            # grafico suscettività al variare di beta ed L
-heat = True            # grafico calore specifico al variare di beta ed L
+mean = False           # grafico magnetizzazione media al variare di beta e L
+chi = False            # grafico suscettività al variare di beta ed L
+heat = False            # grafico calore specifico al variare di beta ed L
 binder = False          # grafico cumulante di Binder
 mean_r = True          # grafico magnetizzazione riscalata al variare di beta e L
-susc_r = False         # grafico suscettività riscalata
+susc_r = True         # grafico suscettività riscalata
+heat_r=True    #grafico calore specifico riscalato
 histogram=False
 color_palette=['deepskyblue','blue', 'yellow', 'lime', 'red']
 # passo montecarlo per la magnetizzazione a fissati beta
@@ -88,22 +89,6 @@ if heat == True:
     plt.legend()
     plt.show()
 
-random.shuffle(color_palette)
-# grafico magnetizzazione riscalata al variare di beta e L
-if mean_r == True:
-    plt.figure()
-    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
-        magn_resc=np.loadtxt(f'results_analysis/magnetizzazione_riscalata/magnetizzazione_riscalata_lattice_dim_{i}.txt')
-        err_magn=np.loadtxt(f'results_analysis/magnetizzazione_media/sigma_mean_magn_lattice_dim_{i}.txt')
-        beta_resc=np.loadtxt(f'results_analysis/beta_riscalato/beta_riscalato_lattice_dim_{i}.txt')
-        plt.errorbar(beta_resc, magn_resc, yerr=err_magn*2*i**(1/8), label=f'Lattice: {i}', fmt='.', mfc='red',
-                  mec='green',color=color_palette[round(i/10)-1], ms=0.4, mew=2, capsize=2)
-    plt.title('Magnetizzazione media riscalata',fontsize=18)
-    plt.xlabel(r'($\beta$-$\beta_c$)L', fontsize=14)
-    plt.ylabel(r'$\langle$ |M| $\rangle$ $L^{1/8}$', fontsize=14)
-    plt.legend()
-    plt.show()
-
 # grafico cumulante di Binder
 if binder == True:
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
@@ -118,6 +103,24 @@ if binder == True:
     plt.legend()
     plt.show()
 
+random.shuffle(color_palette)
+# grafico magnetizzazione riscalata al variare di beta e L
+if mean_r == True:
+    plt.figure()
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        magn_resc=np.loadtxt(f'results_analysis/magnetizzazione_riscalata/magnetizzazione_riscalata_lattice_dim_{i}.txt')
+        err_magn=np.loadtxt(f'results_analysis/magnetizzazione_media/sigma_mean_magn_lattice_dim_{i}.txt')
+        beta_resc=np.loadtxt(f'results_analysis/beta_riscalato/beta_riscalato_lattice_dim_{i}.txt')
+        plt.errorbar(beta_resc, magn_resc, yerr=err_magn*2*i**(1/8), label=f'Lattice: {i}', fmt='.', mfc='red',
+                  mec='green',color=color_palette[round(i/10)-1], ms=0.4, mew=2, capsize=2)
+    plt.title('Magnetizzazione media riscalata',fontsize=18)
+    plt.xlabel(r'($\beta$-$\beta_c$)L$^{1/\nu}$', fontsize=14)
+    plt.ylabel(r'$\langle$ |M| $\rangle$ $L^{\beta/\nu}$', fontsize=14)
+    plt.legend()
+    plt.show()
+
+
+
 #grafico suscettività riscalata
 if susc_r == True:
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
@@ -127,8 +130,21 @@ if susc_r == True:
         plt.errorbar(beta_resc, susc_resc, yerr=err_susc*2*(1/i**(7/4)), label=f'Lattice: {i}', fmt='.', mfc='red',
                     mec='green', ms=0.4, mew=2, capsize=2)
     plt.title(f'Suscettività riscalata', fontsize=18)
-    plt.xlabel(r'($\beta$)L', fontsize=14)
+    plt.xlabel(r'($\beta$-$\beta_c$)L$^{1/\nu}$', fontsize=14)
     plt.ylabel(r'$\chi / L^{7/4}$ ', fontsize=14)
+    plt.legend()
+    plt.show()
+
+if heat_r == True:
+    for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
+        heat=np.loadtxt(f'results_analysis/calore_specifico/calore_specifico_lattice_dim_{i}.txt')
+        err_heat=np.loadtxt(f'results_analysis/calore_specifico/sigma_specific_heat_lattice_dim_{i}.txt')
+        beta_resc=np.loadtxt(f'results_analysis/beta_riscalato/beta_riscalato_lattice_dim_{i}.txt')
+        plt.errorbar(beta_resc, heat, yerr=err_heat*2, label=f'Lattice: {i}', fmt='.', mfc='red',
+                    mec='green', ms=0.4, mew=2, capsize=2)
+    plt.title(f'Calore specifico riscalato', fontsize=18)
+    plt.xlabel(r'($\beta$-$\beta_c$)L^${1/\nu}$', fontsize=14)
+    plt.ylabel(r'$\chi / L^{\gamma/\nu}$ ', fontsize=14)
     plt.legend()
     plt.show()
 
