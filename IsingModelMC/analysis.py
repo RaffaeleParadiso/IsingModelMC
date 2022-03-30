@@ -13,16 +13,16 @@ beta_start = c.BETA_START
 beta_stop = c.BETA_STOP
 passo_beta = c.PASSO_BETA
 
-monte_history_m = False # grafico passo montecarlo per la magnetizzazione a fissati beta
-monte_history_e = False # grafico passo montecarlo per l'energia a fissati beta
-mean = False           # grafico magnetizzazione media al variare di beta e L
-chi = False            # grafico suscettività al variare di beta ed L
-heat = False            # grafico calore specifico al variare di beta ed L
-binder = False          # grafico cumulante di Binder
+monte_history_m = True # grafico passo montecarlo per la magnetizzazione a fissati beta
+monte_history_e = True # grafico passo montecarlo per l'energia a fissati beta
+mean = True           # grafico magnetizzazione media al variare di beta e L
+chi = True            # grafico suscettività al variare di beta ed L
+heat = True            # grafico calore specifico al variare di beta ed L
+binder = True          # grafico cumulante di Binder
 mean_r = True          # grafico magnetizzazione riscalata al variare di beta e L
 susc_r = True         # grafico suscettività riscalata
 heat_r=True    #grafico calore specifico riscalato
-histogram=False
+histogram=True
 color_palette=['deepskyblue','blue', 'yellow', 'lime', 'red']
 # passo montecarlo per la magnetizzazione a fissati beta
 if monte_history_m == True:
