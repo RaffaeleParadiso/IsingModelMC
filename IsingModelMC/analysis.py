@@ -143,7 +143,7 @@ if heat_r == True:
         plt.errorbar(beta_resc, heat, yerr=err_heat*2, label=f'Lattice: {i}', fmt='.', mfc='red',
                     mec='green', ms=0.4, mew=2, capsize=2)
     plt.title(f'Calore specifico riscalato', fontsize=18)
-    plt.xlabel(r'($\beta$-$\beta_c$)L^${1/\nu}$', fontsize=14)
+    plt.xlabel(r'($\beta$-$\beta_c$)$L^{1/\nu}$', fontsize=14)
     plt.ylabel(r'$\chi / L^{\gamma/\nu}$ ', fontsize=14)
     plt.legend()
     plt.show()
