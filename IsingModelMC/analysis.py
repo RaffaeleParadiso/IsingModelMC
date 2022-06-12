@@ -1,7 +1,10 @@
 import matplotlib.pyplot as plt
+from matplotlib import colors
 import numpy as np
 import model.costants as c
 import random
+
+
 flag = c.FLAG
 latt_dim_start = c.LATT_DIM_START
 latt_dim_stop = c.LATT_DIM_STOP
@@ -13,17 +16,23 @@ beta_start = c.BETA_START
 beta_stop = c.BETA_STOP
 passo_beta = c.PASSO_BETA
 
-monte_history_m = True # grafico passo montecarlo per la magnetizzazione a fissati beta
-monte_history_e = True # grafico passo montecarlo per l'energia a fissati beta
-mean = True           # grafico magnetizzazione media al variare di beta e L
-chi = True            # grafico suscettività al variare di beta ed L
-heat = True            # grafico calore specifico al variare di beta ed L
-binder = True          # grafico cumulante di Binder
-mean_r = True          # grafico magnetizzazione riscalata al variare di beta e L
-susc_r = True         # grafico suscettività riscalata
-heat_r=True    #grafico calore specifico riscalato
-histogram=True
+monte_history_m = False   # grafico passo montecarlo per la magnetizzazione a fissati beta
+monte_history_e = False   # grafico passo montecarlo per l'energia a fissati beta
+mean            = False   # grafico magnetizzazione media al variare di beta e L
+chi             = False   # grafico suscettività al variare di beta ed L
+heat            = False   # grafico calore specifico al variare di beta ed L
+binder          = False   # grafico cumulante di Binder
+mean_r          = False   # grafico magnetizzazione riscalata al variare di beta e L
+susc_r          = False   # grafico suscettività riscalata
+heat_r          = False   # grafico calore specifico riscalato
+histogram       = False
+hsters          = True
+
+
 color_palette=['deepskyblue','blue', 'yellow', 'lime', 'red']
+
+beta=np.loadtxt('results_analysis/beta/beta_lattice_dim_10.txt')
+
 # passo montecarlo per la magnetizzazione a fissati beta
 if monte_history_m == True:
     beta_num = 0.450
@@ -72,9 +81,8 @@ if chi == True:
     plt.legend()
     plt.show()
 
-beta=np.loadtxt('results_analysis/beta/beta_lattice_dim_10.txt')
-random.shuffle(color_palette)
 # grafico calore specifico al variare di beta ed L
+random.shuffle(color_palette)
 if heat == True:
     plt.figure()
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
@@ -103,8 +111,8 @@ if binder == True:
     plt.legend()
     plt.show()
 
-random.shuffle(color_palette)
 # grafico magnetizzazione riscalata al variare di beta e L
+random.shuffle(color_palette)
 if mean_r == True:
     plt.figure()
     for i in range(latt_dim_start, latt_dim_stop, passo_latt_dim):
@@ -118,8 +126,6 @@ if mean_r == True:
     plt.ylabel(r'$\langle$ |M| $\rangle$ $L^{\beta/\nu}$', fontsize=14)
     plt.legend()
     plt.show()
-
-
 
 #grafico suscettività riscalata
 if susc_r == True:
@@ -159,4 +165,31 @@ if histogram == True:
     plt.xlabel('M', fontsize=14)
     plt.ylabel('Densità campionaria di M', fontsize=14)
     plt.show()
-        
+
+# plot della magnetizzazione e dell'energia in funzione del campo magnetico esterno applicato 
+# e al variare della temperatura attraverso il parametro \beta
+if hsters == True:
+    hvsm = False
+    hvse = True
+    cmap = colors.ListedColormap(['magenta','blue','orange','green','red','lime'])
+    beta = c.BETA_FIELD
+    extfieldHL = c.EXTFIELDHL
+    extfieldLH = c.EXTFIELDLH
+    plt.figure()
+    for index, i in enumerate(beta):
+        mm = np.loadtxt(f"results/loop_hys/{i}/mean_magn.txt")
+        mm_inv = np.loadtxt(f"results/loop_hys_rev/{i}/mean_magn.txt") 
+        me = np.loadtxt(f"results/loop_hys/{i}/mean_en.txt")
+        me_inv = np.loadtxt(f"results/loop_hys_rev/{i}/mean_en.txt")
+        if hvsm:
+        #plot magnetizzazione vs H
+            plt.plot(extfieldLH, mm, marker="o", c=cmap(index), ls="-",markersize=4, label= f"$beta = {i}$")
+            plt.plot(extfieldHL, mm_inv, marker="o", c=cmap(index), ls="-",markersize=4)
+        if hvse:
+        # plot energia vs H
+            plt.plot(extfieldLH, me, marker="o", c=cmap(index), ls="-",label= f"$beta = {i}$")
+            plt.plot(extfieldHL, me_inv, marker="o", c=cmap(index), ls="-")
+    plt.xlabel('B = External field', fontsize=14)
+    plt.ylabel('Magnetizzazione M', fontsize=14)
+    plt.legend()
+    plt.show()
