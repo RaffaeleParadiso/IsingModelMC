@@ -183,13 +183,31 @@ if hsters == True:
         me_inv = np.loadtxt(f"results/loop_hys_rev/{i}/mean_en.txt")
         if hvsm:
         #plot magnetizzazione vs H
-            plt.plot(extfieldLH, mm, marker="o", c=cmap(index), ls="-",markersize=4, label= f"$beta = {i}$")
-            plt.plot(extfieldHL, mm_inv, marker="o", c=cmap(index), ls="-",markersize=4)
+            plt.plot(extfieldLH, mm, marker="x", c=cmap(index), ls="-", label= f"$beta = {i}$")
+            plt.plot(extfieldHL, mm_inv, marker="x", c=cmap(index), ls="-")
+            plt.ylabel('Magnetizzazione M', fontsize=14)
+            plt.text(3.8,0.86, "B diminuisce", fontfamily="monospace", fontsize=13)
+            plt.annotate("", xy=(3.3, 0.92), xytext=(4.8, 0.92), arrowprops=dict(arrowstyle="->"))
+
+            plt.text(-4.3,-0.9, "B aumenta", fontfamily="monospace", fontsize=13)
+            plt.annotate("", xy=(-3, -0.93), xytext=(-4.6, -0.93), arrowprops=dict(arrowstyle="->"))
+
+            plt.annotate("", xy=(2.2, 0.75), xytext=(2.2, -0.5), arrowprops=dict(arrowstyle="->"))
+            plt.annotate("", xy=(-2.2, -0.5), xytext=(-2.2, 0.75), arrowprops=dict(arrowstyle="->"))
+
+            # plt.annotate("", xy=(1.6, 0.75), xytext=(1.6, -0.5), arrowprops=dict(arrowstyle="->"))
+            # plt.annotate("", xy=(-1.6, -0.5), xytext=(-1.6, 0.75), arrowprops=dict(arrowstyle="->"))
         if hvse:
         # plot energia vs H
-            plt.plot(extfieldLH, me, marker="o", c=cmap(index), ls="-",label= f"$beta = {i}$")
-            plt.plot(extfieldHL, me_inv, marker="o", c=cmap(index), ls="-")
+            plt.plot(extfieldLH, me, marker="x", c=cmap(index), ls="-",label= f"$beta = {i}$")
+            plt.plot(extfieldHL, me_inv, marker="x", c=cmap(index), ls="-")
+            plt.ylabel('Energia E', fontsize=14)
+
+            plt.annotate("", xy=(2, -3), xytext=(2, -0.5), arrowprops=dict(arrowstyle="->"))
+            plt.annotate("", xy=(-2, -3), xytext=(-2, -0.5), arrowprops=dict(arrowstyle="->"))
+            plt.text(-0.45,-0.3, "Stati Meta-Stabili")
+            plt.annotate("", xy=(-1.0, -1.0), xytext=(-0.5, -0.5), arrowprops=dict(arrowstyle="->"))
+            plt.annotate("", xy=(1.0, -1.0), xytext=(0.5, -0.5), arrowprops=dict(arrowstyle="->"))
     plt.xlabel('B = External field', fontsize=14)
-    plt.ylabel('Magnetizzazione M', fontsize=14)
     plt.legend()
     plt.show()

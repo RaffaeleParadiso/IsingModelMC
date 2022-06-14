@@ -1,3 +1,5 @@
+import argparse
+import logging
 import statistics
 import numpy as np
 import model.costants as c
@@ -5,6 +7,19 @@ import module.makedir as mk
 import module.utils as ut
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='2D Ising Model with an External field with variable intensity')
+    parser.add_argument("-l", "--log", default="info", help=("Provide logging level. Example --log debug', default='info"))
+    parser.add_argument('-n','--new', action='store_true', help='Replace everything in the corrisponding folder')
+    args = parser.parse_args()
+
+    levels = {'critical': logging.CRITICAL,
+              'error': logging.ERROR,
+              'warning': logging.WARNING,
+              'info': logging.INFO,
+              'debug': logging.DEBUG}
+
+    logging.basicConfig(level=levels[args.log])
+    new_from_scrath = args.new
 
     flag = c.FLAG
     i_decorrel = c.IDECORREL
@@ -14,8 +29,9 @@ if __name__ == '__main__':
     beta = c.BETA_FIELD
     lattice_dimension = c.LATTICE_EXT
     # for the creation of the loop the variable extfield need to go from negative (-) 5 (or other value of course) to positive (+) 5
-    mk.smart_makedir("results/loop_hys_rev")
-    mk.smart_makedir("results/loop_hys")
+    if new_from_scrath:
+        mk.smart_makedir("results/loop_hys_rev")
+        mk.smart_makedir("results/loop_hys")
     ret_ = ut.initialize_lattice(flag, lattice_dimension)
 
     for i in beta:

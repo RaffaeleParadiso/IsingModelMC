@@ -31,5 +31,5 @@ BETA_STOP=0.480
 import numpy as np
 EXTFIELDHL = np.arange(5, -5, -0.01)
 EXTFIELDLH = np.arange(-5, 5, 0.01)
-BETA_FIELD = [0.5, 1, 2, 4, 10]
-LATTICE_EXT = 10
+BETA_FIELD = [0.3,0.5,1,4]
+LATTICE_EXT = 20
